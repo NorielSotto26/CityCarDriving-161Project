@@ -4,15 +4,41 @@
             <title>City Car Driving</title>
             <style>
                   canvas{
-                        /*width: 100%;*/
-                        /*height: 100%;*/
+                        position: absolute;
+                        top: 0;
+                  }
+                  #controlsLeftTop{
+                        position: absolute;
+                        top: 420px;
+                        margin-left: 55px;
+                  }
+                  #controlsRightTop{
+                        position: absolute;
+                        top: 300px;
+                        right: 170px;
+                  }
+                  #controlsLeftBottom {
+                        position: absolute;
+                        top: 635px;
+                        margin-left: 20px;
+                  }
+                  #controlsLeftBottom img {
+                        padding: 20px;
+                  }
+                  #controlsRightBottom{
+                        position: absolute;
+                        top: 580px;
+                        right: 150px;
+                  }
+                  #extra{
+                        top: 2000px;
                   }
             </style>
 
             <script type="x-shader/x-vertex" id="vshader">
               attribute vec3 aPosition;
               attribute vec2 aUVCoordinates;
-            
+
               uniform mat4 uModel;                //Model Matrix
               uniform mat4 uView;                 //View Matrix
               uniform mat4 uProjection;           //Projection Matrix
@@ -30,7 +56,7 @@
               precision mediump float;
 
               uniform sampler2D uSampler;
-              
+
               varying vec2 vUVCoordinates;
               void main() {
                 gl_FragColor = texture2D(uSampler, vUVCoordinates);
@@ -64,7 +90,7 @@
 
                 var aPosition = gl.getAttribLocation(program,"aPosition");
                 gl.enableVertexAttribArray(aPosition);
-           
+
                 var uModel = gl.getUniformLocation(program,"uModel");
                 var uView = gl.getUniformLocation(program,"uView");
                 var uProjection = gl.getUniformLocation(program,"uProjection");
@@ -106,67 +132,67 @@
                 modelMatrix = mat4.create();
                 //mat4.rotateY(modelMatrix,modelMatrix,glMatrix.toRadian(45));
                 gl.uniformMatrix4fv(uModel,false,new Float32Array(modelMatrix));
-            
-                
+
+
                 var square_position = [   // Coordinates
                  // sidewalk
                  -9.5,0.0,-9.5, 9.0,   9.5,0.0,-9.5, 9.0,   9.5,0.0, 9.5, 9.0,    -9.5,0.0, 9.5, 9.0,
                  // south to north
-                 1.0,0.1,-7.0, 1.0,   -1.0,0.1,-7.0, 1.0,   -1.0,0.1, -9.0, 1.0,  1.0,0.1, -9.0, 1.0, 
-                 1.0,0.1,-5.0, 1.0,   -1.0,0.1,-5.0, 1.0,   -1.0,0.1, -7.0, 1.0,  1.0,0.1, -7.0, 1.0, 
-                 1.0,0.1,-3.0, 1.0,   -1.0,0.1,-3.0, 1.0,   -1.0,0.1, -5.0, 1.0,  1.0,0.1, -5.0, 1.0, 
-                 1.0,0.1,-1.0, 1.0,   -1.0,0.1,-1.0, 1.0,   -1.0,0.1, -3.0, 1.0,  1.0,0.1, -3.0, 1.0, 
-                 1.0,0.1,-1.0, 1.0,   -1.0,0.1,-1.0, 1.0,   -1.0,0.1, 1.0, 1.0,   1.0,0.1, 1.0, 1.0, 
-                 1.0,0.1,1.0,1.0,     -1.0,0.1,1.0,1.0,     -1.0,0.1,3.0,1.0,     1.0,0.1,3.0,1.0, 
-                 -1.0,0.1,3.0,1.0,    1.0,0.1,3.0,1.0,      1.0,0.1,5.0,1.0,      -1.0,0.1,5.0,1.0,   
-                 1.0,0.1,5.0,1.0,     -1.0,0.1,5.0,1.0,     -1.0,0.1,7.0,1.0,     1.0,0.1,7.0,1.0, 
-                 1.0,0.1,7.0,1.0,     -1.0,0.1,7.0,1.0,     -1.0,0.1,9.0,1.0,     1.0,0.1,9.0,1.0, 
+                 1.0,0.1,-7.0, 1.0,   -1.0,0.1,-7.0, 1.0,   -1.0,0.1, -9.0, 1.0,  1.0,0.1, -9.0, 1.0,
+                 1.0,0.1,-5.0, 1.0,   -1.0,0.1,-5.0, 1.0,   -1.0,0.1, -7.0, 1.0,  1.0,0.1, -7.0, 1.0,
+                 1.0,0.1,-3.0, 1.0,   -1.0,0.1,-3.0, 1.0,   -1.0,0.1, -5.0, 1.0,  1.0,0.1, -5.0, 1.0,
+                 1.0,0.1,-1.0, 1.0,   -1.0,0.1,-1.0, 1.0,   -1.0,0.1, -3.0, 1.0,  1.0,0.1, -3.0, 1.0,
+                 1.0,0.1,-1.0, 1.0,   -1.0,0.1,-1.0, 1.0,   -1.0,0.1, 1.0, 1.0,   1.0,0.1, 1.0, 1.0,
+                 1.0,0.1,1.0,1.0,     -1.0,0.1,1.0,1.0,     -1.0,0.1,3.0,1.0,     1.0,0.1,3.0,1.0,
+                 -1.0,0.1,3.0,1.0,    1.0,0.1,3.0,1.0,      1.0,0.1,5.0,1.0,      -1.0,0.1,5.0,1.0,
+                 1.0,0.1,5.0,1.0,     -1.0,0.1,5.0,1.0,     -1.0,0.1,7.0,1.0,     1.0,0.1,7.0,1.0,
+                 1.0,0.1,7.0,1.0,     -1.0,0.1,7.0,1.0,     -1.0,0.1,9.0,1.0,     1.0,0.1,9.0,1.0,
                  // center to right
-                 1.0,0.1,-1.0,1.0,    1.0,0.1,1.0,1.0,      3.0,0.1,1.0,1.0,      3.0,0.1,-1.0,1.0, 
-                 3.0,0.1,-1.0,1.0,    3.0,0.1,1.0,1.0,      5.0,0.1,1.0,1.0,      5.0,0.1,-1.0,1.0, 
-                 5.0,0.1,-1.0,1.0,    5.0,0.1,1.0,1.0,      7.0,0.1,1.0,1.0,      7.0,0.1,-1.0,1.0, 
-                 7.0,0.1,-1.0,1.0,    7.0,0.1,1.0,1.0,      9.0,0.1,1.0,1.0,      9.0,0.1,-1.0,1.0, 
+                 1.0,0.1,-1.0,1.0,    1.0,0.1,1.0,1.0,      3.0,0.1,1.0,1.0,      3.0,0.1,-1.0,1.0,
+                 3.0,0.1,-1.0,1.0,    3.0,0.1,1.0,1.0,      5.0,0.1,1.0,1.0,      5.0,0.1,-1.0,1.0,
+                 5.0,0.1,-1.0,1.0,    5.0,0.1,1.0,1.0,      7.0,0.1,1.0,1.0,      7.0,0.1,-1.0,1.0,
+                 7.0,0.1,-1.0,1.0,    7.0,0.1,1.0,1.0,      9.0,0.1,1.0,1.0,      9.0,0.1,-1.0,1.0,
                  // center to left
-                 -1.0,0.1,-1.0,1.0,   -1.0,0.1,1.0,1.0,     -3.0,0.1,1.0,1.0,     -3.0,0.1,-1.0,1.0, 
-                 -3.0,0.1,-1.0,1.0,   -3.0,0.1,1.0,1.0,     -5.0,0.1,1.0,1.0,     -5.0,0.1,-1.0,1.0, 
-                 -5.0,0.1,-1.0,1.0,   -5.0,0.1,1.0,1.0,     -7.0,0.1,1.0,1.0,     -7.0,0.1,-1.0,1.0, 
+                 -1.0,0.1,-1.0,1.0,   -1.0,0.1,1.0,1.0,     -3.0,0.1,1.0,1.0,     -3.0,0.1,-1.0,1.0,
+                 -3.0,0.1,-1.0,1.0,   -3.0,0.1,1.0,1.0,     -5.0,0.1,1.0,1.0,     -5.0,0.1,-1.0,1.0,
+                 -5.0,0.1,-1.0,1.0,   -5.0,0.1,1.0,1.0,     -7.0,0.1,1.0,1.0,     -7.0,0.1,-1.0,1.0,
                  -7.0,0.1,-1.0,1.0,   -7.0,0.1,1.0,1.0,     -9.0,0.1,1.0,1.0,     -9.0,0.1,-1.0,1.0,
                  // top to left
-                 -1.0,0.1,-7.0, 1.0,   -1.0,0.1,-9.0, 1.0,   -3.0,0.1, -9.0, 1.0,  -3.0,0.1, -7.0, 1.0, 
-                 -3.0,0.1,-7.0, 1.0,   -3.0,0.1,-9.0, 1.0,   -5.0,0.1, -9.0, 1.0,  -5.0,0.1, -7.0, 1.0, 
-                 -5.0,0.1,-7.0, 1.0,   -5.0,0.1,-9.0, 1.0,   -7.0,0.1, -9.0, 1.0,  -7.0,0.1, -7.0, 1.0, 
-                 -7.0,0.1,-7.0, 1.0,   -7.0,0.1,-9.0, 1.0,   -9.0,0.1, -9.0, 1.0,  -9.0,0.1, -7.0, 1.0, 
+                 -1.0,0.1,-7.0, 1.0,   -1.0,0.1,-9.0, 1.0,   -3.0,0.1, -9.0, 1.0,  -3.0,0.1, -7.0, 1.0,
+                 -3.0,0.1,-7.0, 1.0,   -3.0,0.1,-9.0, 1.0,   -5.0,0.1, -9.0, 1.0,  -5.0,0.1, -7.0, 1.0,
+                 -5.0,0.1,-7.0, 1.0,   -5.0,0.1,-9.0, 1.0,   -7.0,0.1, -9.0, 1.0,  -7.0,0.1, -7.0, 1.0,
+                 -7.0,0.1,-7.0, 1.0,   -7.0,0.1,-9.0, 1.0,   -9.0,0.1, -9.0, 1.0,  -9.0,0.1, -7.0, 1.0,
                  // upper left to center
-                 -7.0,0.1,-7.0, 1.0,   -9.0,0.1, -7.0, 1.0,  -9.0,0.1,-5.0, 1.0,   -7.0,0.1, -5.0, 1.0,  
-                 -7.0,0.1,-5.0, 1.0,   -9.0,0.1, -5.0, 1.0,  -9.0,0.1,-3.0, 1.0,   -7.0,0.1, -3.0, 1.0,  
-                 -7.0,0.1,-3.0, 1.0,   -9.0,0.1, -3.0, 1.0,  -9.0,0.1,-1.0, 1.0,   -7.0,0.1, -1.0, 1.0,  
+                 -7.0,0.1,-7.0, 1.0,   -9.0,0.1, -7.0, 1.0,  -9.0,0.1,-5.0, 1.0,   -7.0,0.1, -5.0, 1.0,
+                 -7.0,0.1,-5.0, 1.0,   -9.0,0.1, -5.0, 1.0,  -9.0,0.1,-3.0, 1.0,   -7.0,0.1, -3.0, 1.0,
+                 -7.0,0.1,-3.0, 1.0,   -9.0,0.1, -3.0, 1.0,  -9.0,0.1,-1.0, 1.0,   -7.0,0.1, -1.0, 1.0,
                  // top to right
-                 1.0,0.1,-7.0, 1.0,   1.0,0.1,-9.0, 1.0,   3.0,0.1, -9.0, 1.0,  3.0,0.1, -7.0, 1.0, 
-                 3.0,0.1,-7.0, 1.0,   3.0,0.1,-9.0, 1.0,   5.0,0.1, -9.0, 1.0,  5.0,0.1, -7.0, 1.0, 
-                 5.0,0.1,-7.0, 1.0,   5.0,0.1,-9.0, 1.0,   7.0,0.1, -9.0, 1.0,  7.0,0.1, -7.0, 1.0, 
-                 7.0,0.1,-7.0, 1.0,   7.0,0.1,-9.0, 1.0,   9.0,0.1, -9.0, 1.0,  9.0,0.1, -7.0, 1.0, 
+                 1.0,0.1,-7.0, 1.0,   1.0,0.1,-9.0, 1.0,   3.0,0.1, -9.0, 1.0,  3.0,0.1, -7.0, 1.0,
+                 3.0,0.1,-7.0, 1.0,   3.0,0.1,-9.0, 1.0,   5.0,0.1, -9.0, 1.0,  5.0,0.1, -7.0, 1.0,
+                 5.0,0.1,-7.0, 1.0,   5.0,0.1,-9.0, 1.0,   7.0,0.1, -9.0, 1.0,  7.0,0.1, -7.0, 1.0,
+                 7.0,0.1,-7.0, 1.0,   7.0,0.1,-9.0, 1.0,   9.0,0.1, -9.0, 1.0,  9.0,0.1, -7.0, 1.0,
                  // upper right to center
-                 7.0,0.1,-7.0, 1.0,   9.0,0.1, -7.0, 1.0, 9.0,0.1,-5.0, 1.0,   7.0,0.1, -5.0, 1.0,  
-                 7.0,0.1,-5.0, 1.0,   9.0,0.1, -5.0, 1.0, 9.0,0.1,-3.0, 1.0,   7.0,0.1, -3.0, 1.0,  
-                 7.0,0.1,-3.0, 1.0,   9.0,0.1, -3.0, 1.0, 9.0,0.1,-1.0, 1.0,   7.0,0.1, -1.0, 1.0,   
+                 7.0,0.1,-7.0, 1.0,   9.0,0.1, -7.0, 1.0, 9.0,0.1,-5.0, 1.0,   7.0,0.1, -5.0, 1.0,
+                 7.0,0.1,-5.0, 1.0,   9.0,0.1, -5.0, 1.0, 9.0,0.1,-3.0, 1.0,   7.0,0.1, -3.0, 1.0,
+                 7.0,0.1,-3.0, 1.0,   9.0,0.1, -3.0, 1.0, 9.0,0.1,-1.0, 1.0,   7.0,0.1, -1.0, 1.0,
                  // center to lower right
-                 7.0,0.1,1.0, 1.0,   9.0,0.1, 1.0, 1.0, 9.0,0.1,3.0, 1.0,   7.0,0.1, 3.0, 1.0,  
-                 7.0,0.1,3.0, 1.0,   9.0,0.1, 3.0, 1.0, 9.0,0.1,5.0, 1.0,   7.0,0.1, 5.0, 1.0,  
-                 7.0,0.1,5.0, 1.0,   9.0,0.1, 5.0, 1.0, 9.0,0.1,7.0, 1.0,   7.0,0.1, 7.0, 1.0, 
-                 7.0,0.1,7.0, 1.0,   9.0,0.1, 7.0, 1.0, 9.0,0.1,9.0, 1.0,   7.0,0.1, 9.0, 1.0, 
+                 7.0,0.1,1.0, 1.0,   9.0,0.1, 1.0, 1.0, 9.0,0.1,3.0, 1.0,   7.0,0.1, 3.0, 1.0,
+                 7.0,0.1,3.0, 1.0,   9.0,0.1, 3.0, 1.0, 9.0,0.1,5.0, 1.0,   7.0,0.1, 5.0, 1.0,
+                 7.0,0.1,5.0, 1.0,   9.0,0.1, 5.0, 1.0, 9.0,0.1,7.0, 1.0,   7.0,0.1, 7.0, 1.0,
+                 7.0,0.1,7.0, 1.0,   9.0,0.1, 7.0, 1.0, 9.0,0.1,9.0, 1.0,   7.0,0.1, 9.0, 1.0,
                  // bottom right
-                 1.0,0.1,7.0, 1.0,   1.0,0.1,9.0, 1.0,   3.0,0.1, 9.0, 1.0,  3.0,0.1, 7.0, 1.0, 
-                 3.0,0.1,7.0, 1.0,   3.0,0.1,9.0, 1.0,   5.0,0.1, 9.0, 1.0,  5.0,0.1, 7.0, 1.0, 
-                 5.0,0.1,7.0, 1.0,   5.0,0.1,9.0, 1.0,   7.0,0.1, 9.0, 1.0,  7.0,0.1, 7.0, 1.0,  
+                 1.0,0.1,7.0, 1.0,   1.0,0.1,9.0, 1.0,   3.0,0.1, 9.0, 1.0,  3.0,0.1, 7.0, 1.0,
+                 3.0,0.1,7.0, 1.0,   3.0,0.1,9.0, 1.0,   5.0,0.1, 9.0, 1.0,  5.0,0.1, 7.0, 1.0,
+                 5.0,0.1,7.0, 1.0,   5.0,0.1,9.0, 1.0,   7.0,0.1, 9.0, 1.0,  7.0,0.1, 7.0, 1.0,
                  // center to lower left
-                 -7.0,0.1,1.0, 1.0,   -9.0,0.1, 1.0, 1.0, -9.0,0.1,3.0, 1.0,   -7.0,0.1, 3.0, 1.0,  
-                 -7.0,0.1,3.0, 1.0,   -9.0,0.1, 3.0, 1.0, -9.0,0.1,5.0, 1.0,   -7.0,0.1, 5.0, 1.0,  
-                 -7.0,0.1,5.0, 1.0,   -9.0,0.1, 5.0, 1.0, -9.0,0.1,7.0, 1.0,   -7.0,0.1, 7.0, 1.0, 
-                 -7.0,0.1,7.0, 1.0,   -9.0,0.1, 7.0, 1.0, -9.0,0.1,9.0, 1.0,   -7.0,0.1, 9.0, 1.0, 
+                 -7.0,0.1,1.0, 1.0,   -9.0,0.1, 1.0, 1.0, -9.0,0.1,3.0, 1.0,   -7.0,0.1, 3.0, 1.0,
+                 -7.0,0.1,3.0, 1.0,   -9.0,0.1, 3.0, 1.0, -9.0,0.1,5.0, 1.0,   -7.0,0.1, 5.0, 1.0,
+                 -7.0,0.1,5.0, 1.0,   -9.0,0.1, 5.0, 1.0, -9.0,0.1,7.0, 1.0,   -7.0,0.1, 7.0, 1.0,
+                 -7.0,0.1,7.0, 1.0,   -9.0,0.1, 7.0, 1.0, -9.0,0.1,9.0, 1.0,   -7.0,0.1, 9.0, 1.0,
                  // bottom ;eft
-                 -1.0,0.1,7.0, 1.0,   -1.0,0.1,9.0, 1.0,   -3.0,0.1, 9.0, 1.0,  -3.0,0.1, 7.0, 1.0, 
-                 -3.0,0.1,7.0, 1.0,   -3.0,0.1,9.0, 1.0,   -5.0,0.1, 9.0, 1.0,  -5.0,0.1, 7.0, 1.0, 
-                 -5.0,0.1,7.0, 1.0,   -5.0,0.1,9.0, 1.0,   -7.0,0.1, 9.0, 1.0,  -7.0,0.1, 7.0, 1.0, 
+                 -1.0,0.1,7.0, 1.0,   -1.0,0.1,9.0, 1.0,   -3.0,0.1, 9.0, 1.0,  -3.0,0.1, 7.0, 1.0,
+                 -3.0,0.1,7.0, 1.0,   -3.0,0.1,9.0, 1.0,   -5.0,0.1, 9.0, 1.0,  -5.0,0.1, 7.0, 1.0,
+                 -5.0,0.1,7.0, 1.0,   -5.0,0.1,9.0, 1.0,   -7.0,0.1, 9.0, 1.0,  -7.0,0.1, 7.0, 1.0,
 
                 ];
                 var square_position_buffer = gl.createBuffer();
@@ -174,39 +200,39 @@
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(square_position), gl.STATIC_DRAW);
                 gl.vertexAttribPointer(aPosition,4,gl.FLOAT,false,0,0);
                 gl.enableVertexAttribArray(aPosition);
-                
-                
+
+
                 /**[1] CREATE UV-MAPPING**/
-                var square_uv = [ //UV-mapping  
+                var square_uv = [ //UV-mapping
 
                 ];
 
                 road_size = 46
 
                 for (var i = 0; i < road_size; i++) {
-                    square_uv.push(1.0, 1.0,       
-                                   0.0, 1.0,       
-                                   0.0, 0.0,       
+                    square_uv.push(1.0, 1.0,
+                                   0.0, 1.0,
+                                   0.0, 0.0,
                                    1.0, 0.0)
                 }
-                
+
                 //create pointer to attribute variable in the vertex shader for passing uv coords
                 var aUVCoordinates = gl.getAttribLocation(program,"aUVCoordinates");
-                
+
                 //create buffer for UV Coordinates
                 var square_uv_buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, square_uv_buffer);
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(square_uv), gl.STATIC_DRAW);
                 gl.vertexAttribPointer(aUVCoordinates,2,gl.FLOAT,false,0,0);
                 gl.enableVertexAttribArray(aUVCoordinates);
-                
+
                 /**[2] START CREATION OF TEXTURE OBJECT**/
                 //create textures array to store all texture object
                 var textures = []
                 for (var i = 0; i < 50; i++) {
                   textures.push(gl.createTexture())
                 }
-                
+
                 //create a sampler object responsible for texture sampling
                 var uSampler = gl.getUniformLocation(program, 'uSampler');
                 if (!uSampler) {
@@ -219,7 +245,7 @@
                   images.push(new Image())
                 }
                 /**END PROJECTION MATRIX SPECIFICATION**/
-                
+
                 /**[3] SET ONLOAD FUNCTION**/
                 images[0].onload = function() {
                   drawRoad();
@@ -247,22 +273,68 @@
                 var z_value = document.getElementById("z_value");
                 var forward = document.getElementById("forward");
 
+                var sun = document.getElementById("sun");
+                var drive = document.getElementById("drive");
+                var leftArrow = document.getElementById("left-arrow");
+                var rightArrow = document.getElementById("right-arrow");
+                var gas = document.getElementById("gas");
+                var breaks = document.getElementById("break");
+
                 document.addEventListener("keydown", function(event) {
-                  var UP = 87
-                  var DOWN = 83
-                  var LEFT = 65
-                  var RIGHT = 68
+                  var UP = 87;
+                  var DOWN = 83;
+                  var LEFT = 65;
+                  var RIGHT = 68;
+                  var DAY = 90;
+                  var NIGHT = 67;
+                  var BREAKS = 69;
+
                   if(event.which==UP){
                     moveForward()
+                    drive.src = "images/drive-switch.png";
+                    gas.src = "images/gas-active.png";
                   }else if(event.which==DOWN){
                     moveBackward()
+                    drive.src = "images/reverse-switch.png";
+                    gas.src = "images/gas-active.png";
                   }else if(event.which==LEFT){
                     moveLeft()
+                    leftArrow.src = "images/left-arrow-active.png";
                   }else if(event.which==RIGHT){
                     moveRight()
+                    rightArrow.src = "images/right-arrow-active.png";
+                  }else if(event.which==DAY){
+                        //insesrt change background code
+                        sun.src = "images/sun.png";
+                  }else if(event.which==NIGHT){
+                        //insesrt change background code
+                        sun.src = "images/moon.png";
+                  }else if(event.which==BREAKS){
+                        //insert decelerating code
+                        breaks.src = "images/break-active.png";
                   }
-                  // console.log(event.which);
                 });
+
+                document.addEventListener("keyup", function(event) {
+                     var UP = 87;
+                     var DOWN = 83;
+                     var LEFT = 65;
+                     var RIGHT = 68;
+                     var BREAKS = 69;
+
+                     if(event.which==UP){
+                           gas.src = "images/gas.png";
+                     }else if(event.which==LEFT){
+                           leftArrow.src = "images/left-arrow.png";
+                     }else if(event.which==RIGHT){
+                           rightArrow.src = "images/right-arrow.png";
+                     }else if(event.which==DOWN){
+                           gas.src = "images/gas.png";
+                     }else if(event.which==BREAKS){
+                           //insert decelerating code
+                           breaks.src = "images/break.png";
+                     }
+               });
 
                 x_value.onclick = function() {
                   change_axis();
@@ -279,14 +351,14 @@
                 function drawSidewalk(index, img_num){
 
                   gl.bindTexture(gl.TEXTURE_2D, textures[0]);
-                  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); 
+                  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
                   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, images[img_num]);
                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                  
+
                   gl.activeTexture(gl.TEXTURE1);
                   gl.uniform1i(uSampler, 0);
-                  gl.drawArrays(gl.TRIANGLE_FAN, index, 4);  
+                  gl.drawArrays(gl.TRIANGLE_FAN, index, 4);
 
                 }
 
@@ -295,20 +367,20 @@
                 function drawRoadObj(index, img_num){
 
                   gl.bindTexture(gl.TEXTURE_2D, textures[1]);
-                  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); 
+                  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
                   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, images[img_num]);
                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                  
+
                   gl.activeTexture(gl.TEXTURE0);
                   gl.uniform1i(uSampler, 1);
-                  gl.drawArrays(gl.TRIANGLE_FAN, index, 4); 
+                  gl.drawArrays(gl.TRIANGLE_FAN, index, 4);
 
                 }
 
                 function drawRoad() {
                   gl.clearColor(0.0,0.0,0.0,1.0);
-                  gl.clear(gl.COLOR_BUFFER_BIT); 
+                  gl.clear(gl.COLOR_BUFFER_BIT);
 
                   drawSidewalk(0,0)
                   for (var i = 4; i <= 180; i=i+4) {
@@ -336,8 +408,8 @@
                 function moveForward() {
                   var lookAtPointNew = lookAtPoint;
                   // will contain the index with the highest value
-                  idx = 0;   
-                  // contains the sign of the index 
+                  idx = 0;
+                  // contains the sign of the index
                   if(lookAtPointNew[0]<0) sign = -1;
                   else sign = 1;
                   for (var i = 1,j=0; i < lookAtPointNew.length; i++) {
@@ -366,8 +438,8 @@
                 function moveBackward() {
                   var lookAtPointNew = lookAtPoint;
                   // will contain the index with the highest value
-                  idx = 0;   
-                  // contains the sign of the index 
+                  idx = 0;
+                  // contains the sign of the index
                   if(lookAtPointNew[0]<0) sign = 1;
                   else sign = -1;
                   for (var i = 1,j=0; i < lookAtPointNew.length; i++) {
@@ -396,8 +468,8 @@
                 function moveLeft() {
                   var lookAtPointNew = lookAtPoint;
                   // will contain the index with the highest value
-                  idx = 0;   
-                  // contains the sign of the index 
+                  idx = 0;
+                  // contains the sign of the index
                   if(lookAtPointNew[0]<0) sign = 1;
                   else sign = -1;
                   for (var i = 1,j=0; i < lookAtPointNew.length; i++) {
@@ -425,8 +497,8 @@
                 function moveRight() {
                   var lookAtPointNew = lookAtPoint;
                   // will contain the index with the highest value
-                  idx = 0;   
-                  // contains the sign of the index 
+                  idx = 0;
+                  // contains the sign of the index
                   if(lookAtPointNew[0]<0) sign = 1;
                   else sign = -1;
                   for (var i = 1,j=0; i < lookAtPointNew.length; i++) {
@@ -450,40 +522,27 @@
                   drawRoad();
 
                 }
-                
+
               }
             </script>
       </head>
-      <body>
-            <script>
-            window.onload = function() {
-                  var c = document.getElementById("main-canvas");
-                  var ctx = c.getContext("2d");
-                  var leftArrow = document.getElementById("left-arrow");
-                  var rightArrow = document.getElementById("right-arrow");
-                  var gasPad = document.getElementById("gas");
-                  var breakPad = document.getElementById("break");
-                  var driveSwitch = document.getElementById("drive");
-                  ctx.drawImage(leftArrow,0,0, 50, 50);
-                  ctx.drawImage(rightArrow,20,0);
-                  ctx.drawImage(gasPad,80,0);
-                  ctx.drawImage(breakPad,100,0);
-                  ctx.drawImage(driveSwitch,100,20);
-                  };
-            </script>
-
-          <!--   <canvas id="main-canvas">
-                  <img id="left-arrow" src="images/left-arrow.png">
-                  <img id="right-arrow" src="images/right-arrow.png">
-                  <img id="gas" src="images/gas.png">
-                  <img id="break" src="images/break.png">
-                  <img id="drive" src="images/drive-swtich.png">
-            </canvas> -->
-
-
-             <body onload="main()">
-                <canvas id="c" width="1200" height="800" style="border: 1px black solid; ">
-                </canvas>
+      <body onload="main()">
+            <canvas id="c" width="1200" height="800" style="border: 1px black solid; "></canvas>
+            <div id="controlsLeftTop">
+                  <img id="sun" src="images/sun.png"/>
+            </div>
+            <div id="controlsRightTop">
+                  <img id="drive" src="images/drive-switch.png"/>
+            </div>
+            <div id="controlsLeftBottom">
+                  <img id="left-arrow" src="images/left-arrow.png"/>
+                  <img id="right-arrow" src="images/right-arrow.png"/>
+            </div>
+            <div id="controlsRightBottom">
+                  <img id="gas" src="images/gas.png"/>
+                  <img id="break" src="images/break.png"/>
+            </div>
+            <div id="extra">
                   <div class="slidecontainer">
                     X: <input type="range" min="-10" max="10" value="5" class="slider" id="x_value" oninput="x_val.value=x_value.value">
                     <output id="x_val" name="x_val" for="x_value">5</output>
@@ -499,7 +558,6 @@
                   <div>
                       Use WSAD as controls for debugging.
                   </div>
-              </body>
-
+            </div>
       </body>
 </html>
