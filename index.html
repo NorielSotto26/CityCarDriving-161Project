@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+      <head>
+            <title>City Car Driving</title>
+            <style>
+                  canvas{
+                        /*width: 100%;*/
+                        /*height: 100%;*/
+                  }
+            </style>
+
+            <script type="x-shader/x-vertex" id="vshader">
+              attribute vec3 aPosition;
+              attribute vec2 aUVCoordinates;
+            
+              uniform mat4 uModel;                //Model Matrix
+              uniform mat4 uView;                 //View Matrix
+              uniform mat4 uProjection;           //Projection Matrix
+
+              varying vec2 vUVCoordinates;
+              void main() {
+
+                gl_Position = uProjection * uView * uModel * vec4(aPosition,1.0);
+
+                vUVCoordinates = aUVCoordinates;
+              }
+            </script>
+
+            <script type="x-shader/x-fragment" id="fshader">
+              precision mediump float;
+
+              uniform sampler2D uSampler;
+              
+              varying vec2 vUVCoordinates;
+              void main() {
+                gl_FragColor = texture2D(uSampler, vUVCoordinates);
+              }
+            </script>
+
+            <!--Import external javascript file-->
+            <!--Helper javascript methods for initializing webgl-->
+            <script src="./lib/webgl-init.js"></script>
+            <script src="./lib/webgl-utils.js"></script>
+            <script src="./lib/webgl-debug.js"></script>
+            <script src="./lib/gl-matrix-min.js"></script>
+            <script src="./src/main.js"></script>
+            <script src="./src/road.js"></script>
+            <script src="./src/building.js"></script>
+            <script src="./src/map.js"></script>
+            <script src="./src/car.js"></script>
+      </head>
+      <body>
+            <script>
+            window.onload = function() {
+                  var c = document.getElementById("main-canvas");
+                  var ctx = c.getContext("2d");
+                  var leftArrow = document.getElementById("left-arrow");
+                  var rightArrow = document.getElementById("right-arrow");
+                  var gasPad = document.getElementById("gas");
+                  var breakPad = document.getElementById("break");
+                  var driveSwitch = document.getElementById("drive");
+                  ctx.drawImage(leftArrow,0,0, 50, 50);
+                  ctx.drawImage(rightArrow,20,0);
+                  ctx.drawImage(gasPad,80,0);
+                  ctx.drawImage(breakPad,100,0);
+                  ctx.drawImage(driveSwitch,100,20);
+                  };
+            </script>
+
+          <!--   <canvas id="main-canvas">
+                  <img id="left-arrow" src="images/left-arrow.png">
+                  <img id="right-arrow" src="images/right-arrow.png">
+                  <img id="gas" src="images/gas.png">
+                  <img id="break" src="images/break.png">
+                  <img id="drive" src="images/drive-swtich.png">
+            </canvas> -->
+
+
+             <body onload="main()">
+                <canvas id="c" width="1200" height="800" style="border: 1px black solid; ">
+                </canvas>
+                  <div>
+                      Use WSAD as controls for debugging.
+                  </div>
+              </body>
+
+      </body>
+</html>
