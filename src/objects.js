@@ -11,7 +11,7 @@ for (var i = 0; i < building; i++) {
 }
 
 
-function renderObjects(gl,aPosition,program){
+function renderObjects(gl,aPosition,program,dayOrNight){
   var square_position = [   // Coordinates
    // sidewalk
    -10.0,0.0,-10.0, 9.0,   10.0,0.0,-10.0, 9.0,   10.0,0.0, 10.0, 9.0,    -10.0,0.0, 10.0, 9.0,
@@ -203,7 +203,8 @@ function renderObjects(gl,aPosition,program){
   images[0].src = "images/sidewalk.jpg";
   images[1].src = "images/road.jpg";
   images[2].src = "images/road_intersection.jpg";
-  images[3].src = "images/sky.jpg";
+  if(dayOrNight==0)  images[3].src = "images/sky.jpg";
+  else images[3].src = "images/night.jpg";
   images[4].src = "images/building-1.jpg";
   images[5].src = "images/building-2.jpg";
   images[6].src = "images/building-3.jpg";

@@ -69,8 +69,8 @@ function main() {
 
   // ########################### START OF OBJECTS RENDEERING ###########################
 
-  renderRoad(gl,aPosition,program)
-  // renderSky(gl,aPosition,program)
+  var dayOrNight = 0 // 0 if day, 1 if night
+  renderObjects(gl,aPosition,program,dayOrNight)
 
   // ########################### END OF OBJECTS RENDERING ###########################
 
@@ -105,7 +105,7 @@ function main() {
     mat4.lookAt(viewMatrix,cameraPosition,lookAtPoint,upVector);
     gl.uniformMatrix4fv(uView,false,new Float32Array(viewMatrix));
 
-    renderRoad(gl,aPosition,program)
+    renderObjects(gl,aPosition,program,dayOrNight)
 
   }
 
@@ -137,7 +137,7 @@ function main() {
     mat4.lookAt(viewMatrix,cameraPosition,lookAtPoint,upVector);
     gl.uniformMatrix4fv(uView,false,new Float32Array(viewMatrix));
 
-    renderRoad(gl,aPosition,program)
+    renderObjects(gl,aPosition,program,dayOrNight)
   }
 
   // ###################### FUNCTION FOR MOVING LEFT ANIMATION ########################
@@ -167,7 +167,7 @@ function main() {
     mat4.lookAt(viewMatrix,cameraPosition,lookAtPoint,upVector);
     gl.uniformMatrix4fv(uView,false,new Float32Array(viewMatrix));
 
-    renderRoad(gl,aPosition,program)
+    renderObjects(gl,aPosition,program,dayOrNight)
   }
 
   // ###################### FUNCTION FOR MOVING RIGHT ANIMATION ########################
@@ -197,26 +197,91 @@ function main() {
     mat4.lookAt(viewMatrix,cameraPosition,lookAtPoint,upVector);
     gl.uniformMatrix4fv(uView,false,new Float32Array(viewMatrix));
 
-    renderRoad(gl,aPosition,program)
+    renderObjects(gl,aPosition,program,dayOrNight)
+  }
+
+  // ###################### FUNCTION FOR MOVING RIGHT ANIMATION ########################
+
+  function changeDayOrNight() {
+
+    viewMatrix = mat4.create();
+    mat4.lookAt(viewMatrix,cameraPosition,lookAtPoint,upVector);
+    gl.uniformMatrix4fv(uView,false,new Float32Array(viewMatrix));
+
+    renderObjects(gl,aPosition,program,dayOrNight)
   }
 
   // ############################# KEY LISTENERS ###############################
 
+
+  var sun = document.getElementById("sun");
+  var drive = document.getElementById("drive");
+  var leftArrow = document.getElementById("left-arrow");
+  var rightArrow = document.getElementById("right-arrow");
+  var gas = document.getElementById("gas");
+  var breaks = document.getElementById("break");
+  var dayOrNight = 0 // 0 if day, 1 if night
+
   document.addEventListener("keydown", function(event) {
-    var UP = 87
-    var DOWN = 83
-    var LEFT = 65
-    var RIGHT = 68
+    var UP = 87;
+    var DOWN = 83;
+    var LEFT = 65;
+    var RIGHT = 68;
+    var DAY = 90;
+    var NIGHT = 67;
+    var BREAKS = 69;
+
     if(event.which==UP){
       moveForward()
+      drive.src = "images/drive-switch.png";
+      gas.src = "images/gas-active.png";
     }else if(event.which==DOWN){
       moveBackward()
+      drive.src = "images/reverse-switch.png";
+      gas.src = "images/gas-active.png";
     }else if(event.which==LEFT){
       moveLeft()
+      leftArrow.src = "images/left-arrow-active.png";
     }else if(event.which==RIGHT){
       moveRight()
+      rightArrow.src = "images/right-arrow-active.png";
+    }else if(event.which==DAY){
+          //insesrt change background code
+          dayOrNight = 0
+          changeDayOrNight()
+          sun.src = "images/sun.png";
+    }else if(event.which==NIGHT){
+          //insesrt change background code
+          dayOrNight = 1
+          changeDayOrNight()
+          sun.src = "images/moon.png";
+    }else if(event.which==BREAKS){
+          //insert decelerating code
+          breaks.src = "images/break-active.png";
     }
+
   });
+
+  document.addEventListener("keyup", function(event) {
+       var UP = 87;
+       var DOWN = 83;
+       var LEFT = 65;
+       var RIGHT = 68;
+       var BREAKS = 69;
+
+       if(event.which==UP){
+             gas.src = "images/gas.png";
+       }else if(event.which==LEFT){
+             leftArrow.src = "images/left-arrow.png";
+       }else if(event.which==RIGHT){
+             rightArrow.src = "images/right-arrow.png";
+       }else if(event.which==DOWN){
+             gas.src = "images/gas.png";
+       }else if(event.which==BREAKS){
+             //insert decelerating code
+             breaks.src = "images/break.png";
+       }
+ });
   
 }
 
